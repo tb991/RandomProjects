@@ -1,0 +1,102 @@
+class Main{
+	static int scr;
+	static int addr;
+	static int val;
+	static int offset;
+	static int scrLim;
+	static Array bars;
+	static Array obars;
+	static int idx;
+	static int idx2;
+	static int count;
+	static int part;
+	function void main() {
+		let scr = 16384;
+		let scrLim = 24575;
+		let addr = scr;
+		let val = -1;
+		let offset = 0;
+		let bars = Array.new(18);
+		let obars = Array.new(17);
+		let idx = 0;
+		let idx2 = 0;
+		let count = 0;
+		let part = 29;
+		do Main.init();
+		do Main.init2();
+		//do Output.printInt(obars[15]);
+		while (part > -1){
+			let idx = 0;
+			let idx2 = 0;
+			let addr = scr;
+			let offset = part;
+			while (idx < 18){
+				while ((addr + offset) < scrLim){
+					do Memory.poke(addr + offset + 1, bars[idx]);
+					do Memory.poke(addr + (offset), obars[16-idx2]);
+					//let val = val + 1;
+					let addr = addr + 32;
+					//do Memory.poke(addr - (idx*16), bars[15-idx]);
+					//do Sys.wait(2);
+					if (idx2 = 15){
+						let addr = scrLim;
+					}
+				}
+				let addr = scr;
+				let idx = idx + 1;
+				if (idx2 < 16){
+					let idx2 = idx2 + 1;
+				}
+			}
+			let part = part - 1;
+		}
+		return;
+	}
+	function void init(){
+		let bars[0] = -1;
+		let bars[1] = 32767;
+		let bars[2] = 16383;
+		let bars[3] = 8191;
+		
+		let bars[4] = 4095;
+		let bars[5] = 2047;
+		let bars[6] = 1023;
+		let bars[7] = 511;
+		
+		let bars[8] = 255;
+		let bars[9] = 127;
+		let bars[10] = 63;
+		let bars[11] = 31;
+		
+		let bars[12] = 15;
+		let bars[13] = 7;
+		let bars[14] = 3;
+		let bars[15] = 2;
+		let bars[16] = 1;
+		let bars[17] = 0;
+		return;
+	}
+	function void init2(){
+		let obars[0] = -1;
+		let obars[1] = -1;
+		let obars[2] = -2;
+		let obars[3] = -4;
+		
+		let obars[4] = -8;
+		let obars[5] = -16;
+		let obars[6] = -32;
+		let obars[7] = -64;
+		
+		let obars[8] = -128;
+		let obars[9] = -256;
+		let obars[10] = -512;
+		let obars[11] = -1024;
+		
+		let obars[12] = -2048;
+		let obars[13] = -4096;
+		let obars[14] = -8192;
+		let obars[15] = -16384;
+		let obars[16] = -16384;
+		return;
+	}
+}
