@@ -1,0 +1,1 @@
+Main.jack makes a vertical bar move across the screen. You need the Jack Compiler and the VMEmulator from the nand2tetris course to run it. I did it on the Java versions. 
