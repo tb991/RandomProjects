@@ -1,0 +1,53 @@
+class Bullet{
+	field int x;
+	field int y;
+	field boolean alive;
+	constructor Bullet new(int startY){
+		let x = 10;
+		let y = startY;
+		return this;
+	}
+	method void draw(){
+		//do Output.printInt(x);
+		do Screen.setColor(true); // black
+		do Screen.drawRectangle(x, y, x + 5, y + 2);
+		do deleteTrail(); // delete a trailing part of the bullet
+		return;
+	}
+	method void activate(){
+		let alive = true;
+		do draw();
+		return;
+	}
+	method boolean shiftRight(){
+		let x = x + 2;
+		if (x > (500)){
+			let alive = false;
+			//do dispose();
+		}
+		else{
+			do draw();
+		}
+		return alive;
+	}
+	method boolean alive(){
+		return alive;
+	}
+	method void setAlive(boolean to){
+		let alive = to;
+		return;
+	}
+	method void dispose(){
+		do Screen.setColor(false); // white
+		do Screen.drawRectangle(x-5, y, x + 5, y + 2);
+		do Memory.deAlloc(this);
+		do Screen.setColor(true); 
+		return;
+	}
+	method void deleteTrail(){
+		do Screen.setColor(false);
+		do Screen.drawRectangle(x - 4, y, x -2, y + 2);
+		//do Screen.setColor(true);
+		return;
+	}
+}

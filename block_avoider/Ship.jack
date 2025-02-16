@@ -1,0 +1,43 @@
+class Ship{
+	field int x;
+	field int y;
+	field int s; // size
+	constructor Ship new(){
+		let x = 20;
+		let y = 50;
+		let s = 10;
+		return this;
+	}
+	method void draw(){
+		do Screen.drawLine(x - s, y - s, x - s, y + s); // vert
+		do Screen.drawLine(x - s, y - s, x, y); // top corner
+		do Screen.drawLine(x - s, y + s, x, y); // bottom corner
+		return;
+	}
+	method boolean moveDown(){
+		if (y < 230){
+			let y = y + 2;
+		}
+		return y < 254;
+	}
+	method boolean moveUp(){
+		if (y > 12){
+			let y = y - 2;
+		}
+		return y > 2;
+	}
+	method void clear(){
+		do Screen.setColor(false);
+		do Screen.drawLine(x - s, y - s, x - s, y + s); // vert
+		do Screen.drawLine(x - s, y - s, x, y); // top corner
+		do Screen.drawLine(x - s, y + s, x, y); // bottom corner
+		do Screen.setColor(true);
+		return;
+	}
+	method int getY(){
+		return y;
+	}
+	method int getX(){
+		return x;
+	}
+}

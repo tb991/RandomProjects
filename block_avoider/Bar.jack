@@ -1,0 +1,58 @@
+class Bar{
+	field int xpos;
+	field int ypos;
+	field int h;
+	field int width;
+	constructor Bar new(int x, int y, int height){
+		let width = 20;
+		if (((y + height) < 256) & (x > -1) &  (y > -1) & ((x + width) < 512) & (y < 256)){
+			let xpos = x;
+			let ypos = y;
+			let h = height;
+			do place();
+		}
+		else{
+			do Output.printString("Problem with object creation.");
+		}
+		return this;
+	}
+	method void place(){
+		do Screen.drawRectangle(xpos, ypos, xpos + width, ypos + h);
+		return;
+	}
+	method void dispose(){
+		let xpos = -1;
+		do Memory.deAlloc(this);
+		return;
+	}
+	method int getX(){
+		return xpos;
+	}
+	method int getY(){
+		return ypos;
+	}
+	method int getH(){
+		return h;
+	}
+	method int shiftLeft(){
+		if (xpos > 2){
+			do Screen.setColor(false);
+			do Screen.drawLine(xpos + width, ypos, xpos + width, ypos + h);
+			do Screen.setColor(true);
+			do Screen.drawLine(xpos - 1, ypos, xpos -1 , ypos + h);
+			let xpos = xpos - 1;
+			do Sys.wait(2);
+		}
+		else{
+			//do Output.printString("here");
+			do Screen.setColor(false);
+			do Screen.drawRectangle(xpos, ypos, xpos + width, ypos + h);
+			do Screen.setColor(true);
+			let xpos = 0;
+		}
+		return (xpos);
+	}
+	function int newStartHeight(){
+		return m.getNew();
+	}
+}

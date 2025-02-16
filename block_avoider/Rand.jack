@@ -1,0 +1,46 @@
+class Rand{
+	field Array vals;
+	field int getCount;
+	constructor Rand new(){
+		let vals = Array.new(100);
+		let getCount = 0;
+		return this;
+	}
+	method void init(){
+		var int idx;
+		do LCGRandom.setSeed(10);
+		let idx = 0;
+		while (idx < 100){
+			let vals[idx] = go();
+			let idx = idx + 1;
+		} 
+		return;
+	}
+	method void print(){
+		var int idx;
+		let idx = 0;
+		while (idx < 100){
+			do Output.printInt(vals[idx]);
+			do Output.printString(" ");
+			let idx = idx + 1;
+		} 
+		return;
+	}
+	method int go(){
+		var int x;
+		let x = LCGRandom.rand();
+		let x = Utils.mod(x, 190);
+		//do Output.printInt(x);
+		//do Output.printString(" ");
+		return x;
+	}
+	method int get(){
+		var int out;
+		if (getCount = 100){
+			let getCount = 0;
+		}
+		let out = vals[getCount];
+		let getCount = getCount + 1;
+		return out;
+	}
+}

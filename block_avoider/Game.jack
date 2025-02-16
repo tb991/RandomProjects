@@ -1,0 +1,152 @@
+class Game{
+	field Bar rect;
+	field Bar rect2;
+	field Bar rect3;
+	field Bar rect4;
+	field Bar rect5;
+	field Bullet bull;
+	field char currKey;
+	//field int rect1Pos;
+	//field int rect2Pos;
+	field boolean bullLive;
+	field boolean stopFire;
+	static Game g;
+	static Ship sh;
+	field boolean shipMovement;
+	//field Map m;
+	field Rand rng;
+	field boolean endGame;
+	field int score;
+	constructor Game new(){
+		let rect = newRect(200,100,50);
+		let rect2 = newRect(250,175,75);
+		let rect3 = newRect(300,100,50);
+		let rect4 = newRect(350,175,75);
+		let rect5 = newRect(400,100,50);
+		//let rect1Pos = rect.getX();
+		//let rect2Pos = rect2.getX();
+		let bullLive = false;
+		let currKey = 100;
+		//let bull = Bullet.new(100);
+		let stopFire = false;
+		let sh = Ship.new();
+		let shipMovement = true;
+		//let m = Map.new();
+		let rng = Game.initRand();
+		let endGame = false;
+		let score = 0;
+		let g = this;
+		return this;
+	}
+	function Rand initRand(){
+		var Rand x;
+		let x = Rand.new();
+		do x.init();
+		return x;
+	}
+	method void run(){
+		do sh.draw();
+		do Sys.wait(1000);
+		while (~endGame){
+			//do Output.printInt(currKey);
+			//do Output.println();
+			// need to check for ship collision
+			// need to check for bullet hitting block
+			// block 1 movement
+			let rect = blockM(rect);
+			// block 2 movement
+			let rect2 = blockM(rect2);
+			let rect3 = blockM(rect3);
+			let rect4 = blockM(rect4);
+			let rect5 = blockM(rect5);
+			// get keypress
+			let currKey = Keyboard.keyPressed();
+			if ((currKey = 32) & (~stopFire)){ // space key
+				do fire();
+				let stopFire = true;
+			}
+			//let bullLive = bull.alive();
+			if (bullLive){
+				let bullLive = bull.shiftRight();
+				if (~bullLive){
+					do bull.dispose();
+				}
+				do Sys.wait(10);
+			}
+			// ship movement
+			if (currKey = 133){
+				// down
+				do sh.clear();
+				let shipMovement = sh.moveDown();
+				if (~shipMovement){
+					do sh.moveUp(); // this is to correct the above movement
+				}
+				do sh.draw();
+				do Sys.wait(10);
+			}
+			else{
+			
+				if (currKey = 131){
+					// up
+					do sh.clear();
+					let shipMovement = sh.moveUp();
+					if (~shipMovement){
+						do sh.moveDown();
+					}
+					do sh.draw();
+					do Sys.wait(10);
+				}
+			}
+		}
+		do Screen.drawRectangle(0,0,511,255);
+		do Screen.setColor(false);
+		do Output.moveCursor(10, 10);
+		do Output.printString("Game Over");
+		do Output.moveCursor(15, 12);
+		do Output.printString("Score: ");
+		do Output.printInt(score);
+		return;
+	}
+	method Block blockM(Bar theBlock){
+		var int theX;
+		let theX = theBlock.getX();
+		if (theX > 1){
+			do theBlock.shiftLeft();
+			// check for ship collision and end game
+			if ((theX = 20)){
+				if ((sh.getY() > theBlock.getY()) & (sh.getY() < (theBlock.getH() + theBlock.getY()))){
+					let endGame = true;	
+				}
+			}
+		}
+		else{
+			if (theX = 0){
+				//do Output.printString("here 1");
+				//do Memory.deAlloc(rect);
+				//let rect1Pos = -1;
+				let theBlock = newRect(480,rng.get(),50);
+				let score = score + 1;
+			}
+			else{
+				//do Sys.wait(10);
+			}
+		}
+		return theBlock;
+	}
+	method void fire(){
+		let bull = Bullet.new(sh.getY());
+		do bull.activate();
+		let bullLive = bull.alive();
+		return;
+	}
+	method Bar newRect(int x, int y, int h){
+		var Bar z;
+		let z = Bar.new(x,y, h);
+		return z;
+	}
+	method Ship newShip(){
+		var Ship z;
+		let z = Ship.new();
+		return z;
+	}
+}
